@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP Psychology — How to Learn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --font-display:'Instrument Serif',serif;
+  --font-body:'Manrope',sans-serif;
+  --font-mono:'DM Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{font-family:var(--font-body);background:#0F172A;color:#E2E8F0;min-height:100vh}
+
+/* ── TOPBAR ── */
+#topbar{position:sticky;top:0;z-index:100;background:#1E293B;border-bottom:1px solid rgba(255,255,255,0.08);padding:14px 20px;display:flex;align-items:center;gap:12px}
+#topbar-title{font-family:var(--font-display);font-size:1.18rem;font-weight:800;color:#f0ede8;flex:1}
+#topbar-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(125,211,168,0.12);border:1px solid rgba(125,211,168,0.25);border-radius:20px;padding:3px 11px;font-size:0.85rem;font-weight:700;color:#7dd3a8;font-family:var(--font-mono)}
+
+/* ── LOCK OVERLAY ── */
+#lock-overlay{display:none;position:fixed;inset:0;z-index:9000;background:rgba(10,12,20,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);align-items:center;justify-content:center;flex-direction:column;gap:18px;text-align:center;padding:30px}
+#lock-overlay.active{display:flex}
+.lock-icon{font-size:3.5rem;margin-bottom:4px;animation:lock-pulse 2.5s ease-in-out infinite}
+@keyframes lock-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.7;transform:scale(0.95)}}
+.lock-title{font-family:var(--font-display);font-size:1.7rem;font-weight:800;color:#f0ede8}
+.lock-sub{font-size:1.0rem;color:rgba(255,255,255,0.42);max-width:340px;line-height:1.7}
+.lock-contact{display:inline-flex;align-items:center;gap:8px;margin-top:6px;padding:11px 24px;background:rgba(125,211,168,0.12);border:1px solid rgba(125,211,168,0.3);border-radius:10px;color:#7dd3a8;font-weight:700;font-size:0.97rem;cursor:default;font-family:var(--font-body)}
+.lock-dismiss{margin-top:10px;padding:8px 18px;background:transparent;border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:rgba(255,255,255,0.35);font-size:0.88rem;cursor:pointer;font-family:var(--font-body);transition:all .15s}
+.lock-dismiss:hover{border-color:rgba(255,255,255,0.25);color:rgba(255,255,255,0.6)}
+
+/* ── MAIN PAGE ── */
+.lv-page{max-width:860px;margin:0 auto;padding:32px 20px 80px}
+.lv-hero{margin-bottom:36px}
+.lv-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#c4a96b;background:rgba(232,213,163,.10);border:1px solid rgba(232,213,163,.18);padding:4px 11px;border-radius:20px;margin-bottom:16px;font-family:var(--font-mono)}
+.lv-hero h1{font-family:var(--font-display);font-size:clamp(26px,4vw,40px);font-weight:800;line-height:1.15;color:#f0ede8;margin-bottom:10px}
+.lv-hero h1 em{font-style:italic;color:#e8d5a3;font-weight:700}
+.lv-hero-sub{font-size:13.5px;color:rgba(255,255,255,.38);max-width:520px;line-height:1.7;margin-bottom:22px}
+.lv-progress{display:flex;align-items:center;gap:14px;padding:12px 16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px}
+.lv-progress-label{font-size:12px;color:rgba(255,255,255,.38);white-space:nowrap}
+.lv-progress-track{flex:1;height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+.lv-progress-fill{height:100%;background:linear-gradient(90deg,#c4a96b,#e8d5a3);border-radius:2px;width:0%;transition:width .4s ease}
+.lv-progress-count{font-size:12px;font-weight:600;color:#e8d5a3;white-space:nowrap;font-family:var(--font-mono)}
+
+/* ── CONTROLS ── */
+.lv-controls{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.lv-search-wrap{flex:1;min-width:180px;position:relative}
+.lv-search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:rgba(255,255,255,.25);pointer-events:none}
+.lv-search{width:100%;padding:9px 12px 9px 34px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;color:#f0ede8;font-family:var(--font-body);font-size:13px;outline:none;transition:border-color .15s}
+.lv-search::placeholder{color:rgba(255,255,255,.22)}
+.lv-search:focus{border-color:rgba(255,255,255,.18)}
+.lv-chips{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.lv-chip{padding:7px 13px;border-radius:20px;border:1px solid rgba(255,255,255,.08);background:transparent;color:rgba(255,255,255,.38);font-family:var(--font-body);font-size:12px;cursor:pointer;transition:all .15s;white-space:nowrap}
+.lv-chip:hover{border-color:rgba(255,255,255,.18);color:rgba(255,255,255,.7)}
+.lv-chip.active-all{background:rgba(232,213,163,.10);border-color:rgba(232,213,163,.28);color:#e8d5a3}
+.lv-chip.active-memory{background:rgba(126,184,247,.10);border-color:rgba(126,184,247,.28);color:#7eb8f7}
+.lv-chip.active-strategy{background:rgba(125,211,168,.10);border-color:rgba(125,211,168,.28);color:#7dd3a8}
+.lv-chip.active-encoding{background:rgba(184,163,247,.10);border-color:rgba(184,163,247,.28);color:#b8a3f7}
+.lv-results-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;font-size:12px;color:rgba(255,255,255,.25)}
+
+/* ── CARDS ── */
+.lv-cards{display:flex;flex-direction:column;gap:8px}
+.lv-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;overflow:hidden;transition:border-color .15s,box-shadow .15s}
+.lv-card:hover{border-color:rgba(255,255,255,.12)}
+.lv-card.lv-open{border-color:rgba(255,255,255,.14);box-shadow:0 4px 24px rgba(0,0,0,.35)}
+.lv-card-header{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;user-select:none;transition:background .15s}
+.lv-card-header:hover{background:rgba(255,255,255,.03)}
+.lv-card.lv-open .lv-card-header{background:rgba(255,255,255,.04)}
+.lv-num{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;font-family:var(--font-mono)}
+.lv-card-info{flex:1;min-width:0}
+.lv-card-title{font-size:14px;font-weight:600;color:#f0ede8;margin-bottom:2px}
+.lv-card-tagline{font-size:11px;color:rgba(255,255,255,.35)}
+.lv-card-right{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.lv-cat-tag{font-size:10px;font-weight:600;padding:3px 9px;border-radius:10px;letter-spacing:.02em}
+.lv-cat-memory{background:rgba(126,184,247,.12);color:#7eb8f7}
+.lv-cat-strategy{background:rgba(125,211,168,.12);color:#7dd3a8}
+.lv-cat-encoding{background:rgba(184,163,247,.12);color:#b8a3f7}
+.lv-mastered-btn{font-size:10px;padding:4px 9px;border-radius:6px;border:1px solid rgba(255,255,255,.12);background:transparent;color:rgba(255,255,255,.3);font-family:var(--font-body);cursor:pointer;transition:all .15s;white-space:nowrap}
+.lv-mastered-btn:hover{border-color:#7dd3a8;color:#7dd3a8}
+.lv-mastered-btn.lv-done{background:rgba(125,211,168,.10);border-color:rgba(125,211,168,.28);color:#7dd3a8}
+.lv-chevron{width:16px;height:16px;color:rgba(255,255,255,.2);transition:transform .15s;flex-shrink:0}
+.lv-card.lv-open .lv-chevron{transform:rotate(180deg);color:rgba(255,255,255,.4)}
+.lv-card-body{border-top:1px solid rgba(255,255,255,.06);display:none}
+.lv-card.lv-open .lv-card-body{display:block}
+.lv-section{padding:18px 22px;border-bottom:1px solid rgba(255,255,255,.05)}
+.lv-section:last-child{border-bottom:none}
+.lv-section-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:9px;font-family:var(--font-mono)}
+.lv-label-what{color:#7eb8f7}.lv-label-why{color:#5ecec7}.lv-label-how{color:#c4a96b}.lv-label-example{color:rgba(255,255,255,.25)}.lv-label-mistakes{color:#f77e7e}
+.lv-section-text{font-size:13px;color:rgba(255,255,255,.5);line-height:1.75}
+.lv-steps{list-style:none;display:flex;flex-direction:column;gap:9px}
+.lv-step{display:flex;gap:11px;align-items:flex-start;font-size:13px;color:rgba(255,255,255,.5);line-height:1.7}
+.lv-step-num{width:20px;height:20px;border-radius:5px;background:rgba(232,213,163,.10);color:#e8d5a3;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;border:1px solid rgba(232,213,163,.12);font-family:var(--font-mono)}
+.lv-example-box{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-left:3px solid #c4a96b;border-radius:7px;padding:13px 15px;font-size:13px;color:rgba(255,255,255,.45);line-height:1.75}
+.lv-mistakes-list{display:flex;flex-direction:column;gap:9px}
+.lv-mistake{display:flex;gap:11px;align-items:flex-start;font-size:13px;color:rgba(255,255,255,.45);line-height:1.7}
+.lv-mistake-dot{width:16px;height:16px;border-radius:50%;background:rgba(247,126,126,.10);border:1px solid rgba(247,126,126,.18);flex-shrink:0;margin-top:3px;display:flex;align-items:center;justify-content:center;font-size:8px;color:#f77e7e;font-weight:700}
+
+/* ── LOCKED CARD ── */
+.lv-card-locked{background:rgba(255,255,255,.015);border:1px solid rgba(255,255,255,.04);border-radius:10px;overflow:hidden;opacity:0.45;cursor:not-allowed}
+.lv-card-locked .lv-card-header{cursor:not-allowed}
+.lv-lock-badge{font-size:11px;padding:3px 10px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.28);font-family:var(--font-mono);display:flex;align-items:center;gap:5px}
+
+/* ── FIB ── */
+.lv-fib-section{padding:18px 22px;border-top:1px solid rgba(255,255,255,.06)}
+.lv-fib-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.lv-fib-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#7dd3a8;font-family:var(--font-mono)}
+.lv-fib-progress{font-size:10px;color:rgba(255,255,255,.25);font-family:var(--font-mono);margin-left:auto}
+.lv-fib-pips{display:flex;gap:5px;margin-left:6px}
+.lv-fib-pip{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.1);transition:background .3s}
+.lv-fib-pip.done{background:#7dd3a8;box-shadow:0 0 6px rgba(125,211,168,.4)}
+.lv-fib-sentence{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:16px 18px;margin-bottom:14px;font-size:13px;color:rgba(255,255,255,.6);line-height:2.2}
+.lv-fib-blank{display:inline-flex;align-items:center;justify-content:center;min-width:90px;height:28px;border-bottom:2px dashed rgba(125,211,168,.35);border-radius:4px;background:rgba(125,211,168,.05);margin:0 3px;padding:0 8px;vertical-align:middle;cursor:pointer;transition:all .2s;font-weight:600;color:#7dd3a8;font-size:12px}
+.lv-fib-blank.empty{color:transparent}
+.lv-fib-blank.empty::after{content:'?';color:rgba(255,255,255,.15);font-size:11px}
+.lv-fib-blank.filled{border-bottom-color:#7dd3a8;background:rgba(125,211,168,.12)}
+.lv-fib-blank.correct{border-bottom-color:#22c55e;background:rgba(34,197,94,.12);color:#22c55e;animation:lv-fib-pop .3s ease}
+.lv-fib-blank.wrong{border-bottom-color:#f87171;background:rgba(248,113,113,.12);color:#f87171;animation:lv-fib-shake .4s ease}
+@keyframes lv-fib-pop{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
+@keyframes lv-fib-shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
+.lv-fib-bank{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.lv-fib-word{padding:5px 12px;border-radius:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.55);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;user-select:none;font-family:var(--font-body)}
+.lv-fib-word:hover{background:rgba(125,211,168,.1);border-color:rgba(125,211,168,.3);color:#7dd3a8}
+.lv-fib-word.used{opacity:.25;pointer-events:none;text-decoration:line-through}
+.lv-fib-actions{display:flex;gap:10px;align-items:center}
+.lv-fib-check{padding:6px 16px;border-radius:7px;border:none;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);transition:opacity .15s}
+.lv-fib-check:disabled{opacity:.3;cursor:not-allowed}
+.lv-fib-result{font-size:12px;color:rgba(255,255,255,.35);font-weight:500}
+.lv-fib-result.pass{color:#22c55e}.lv-fib-result.fail{color:#f87171}
+.lv-fib-next{padding:6px 16px;border-radius:7px;border:1px solid rgba(125,211,168,.3);background:rgba(125,211,168,.08);color:#7dd3a8;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);display:none}
+.lv-fib-mastered-msg{text-align:center;padding:20px;font-size:14px;font-weight:700;color:#22c55e;line-height:1.6}
+.lv-fib-mastered-msg span{display:block;font-size:24px;margin-bottom:6px}
+.lv-empty{text-align:center;padding:50px 20px;color:rgba(255,255,255,.2);font-size:14px}
+.lv-footer-note{text-align:center;padding:20px;font-size:0.83rem;color:rgba(255,255,255,.18);font-family:var(--font-mono);border-top:1px solid rgba(255,255,255,.05);margin-top:16px}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <div id="topbar-title">💡 How to Learn — AP Psychology</div>
+  <div id="topbar-badge">3 of 17 Unlocked</div>
+</div>
+
+<!-- Lock overlay -->
+<div id="lock-overlay">
+  <div class="lock-icon">🔒</div>
+  <div class="lock-title">Section Locked</div>
+  <div class="lock-sub">Techniques 4–17 are not yet available. Contact your instructor to unlock additional content.</div>
+  <div class="lock-contact">✉ Message the creator for more information</div>
+  <button class="lock-dismiss" onclick="closeLock()">← Go back</button>
+</div>
+
+<div class="lv-page">
+  <div class="lv-hero">
+    <div class="lv-eyebrow">🧠 AP Psychology Study App</div>
+    <h1>Learning <em>how</em> to learn</h1>
+    <p class="lv-hero-sub">Evidence-based study techniques mapped directly to AP Psychology. The first 3 are unlocked — each with a what, why, how, real example, and a fill-in-the-blank exercise to master it.</p>
+    <div class="lv-progress">
+      <span class="lv-progress-label">Techniques mastered</span>
+      <div class="lv-progress-track"><div class="lv-progress-fill" id="lvProgressFill"></div></div>
+      <span class="lv-progress-count" id="lvProgressCount">0 / 3</span>
+    </div>
+  </div>
+
+  <div class="lv-controls">
+    <div class="lv-search-wrap">
+      <svg class="lv-search-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8.5" cy="8.5" r="5.5"/><path d="M13 13l3.5 3.5" stroke-linecap="round"/></svg>
+      <input class="lv-search" id="lvSearch" type="text" placeholder="Search techniques…">
+    </div>
+    <div class="lv-chips">
+      <button class="lv-chip active-all" data-cat="all">All</button>
+      <button class="lv-chip" data-cat="memory">Memory</button>
+      <button class="lv-chip" data-cat="strategy">Strategy</button>
+      <button class="lv-chip" data-cat="encoding">Encoding</button>
+    </div>
+  </div>
+  <div class="lv-results-bar"><span id="lvResultsLabel"></span></div>
+  <div class="lv-cards" id="lvCardsList"></div>
+  <div class="lv-footer-note">🔒 Techniques 4–17 unlock as you progress — message the creator for access</div>
+</div>
+
+<script>
+// ── DATA: First 3 unlocked techniques ──────────────────
+const UNLOCKED = [
+  {id:1,title:"Spaced Repetition",tagline:"Review at growing intervals",category:"memory",
+   what:"Studying material at increasing time gaps rather than all at once.",
+   why:"Each time you recall something just before forgetting it, your brain strengthens that memory trace — making it easier to retrieve next time.",
+   steps:["After learning a concept (e.g., classical conditioning), review it the next day.","If you recall it correctly, push the next review to 3 days later, then 7, then 14.","If you forget or get it wrong, reset the interval back to 1 day.","Use index cards or an app like Anki — one concept per card."],
+   example:"You learn about the difference between negative reinforcement and punishment on Monday. You review Tuesday — got it. Review Friday — got it. Review the following Saturday. By the week before the exam, you're only reviewing the handful of cards you keep getting wrong, not all 200.",
+   mistakes:["Making intervals too short — reviewing every day defeats the purpose. The forgetting is part of the process.","Treating re-reading as a review. If you're not actively trying to recall the answer before flipping the card, it doesn't count."],
+   sentences:[
+     {text:"I learned about ___ on Monday. I review Tuesday, then push my next review to ___ later if I get it right.",blanks:["classical conditioning","3 days"],distractors:["operant conditioning","the same day","next month"]},
+     {text:"I made a flashcard for ___ vs ___. If I blank on it tomorrow, I reset my interval back to 1 day.",blanks:["negative reinforcement","punishment"],distractors:["memory","encoding","the brain"]},
+     {text:"By exam week I only drill my ___ cards — the ones on ___ that I keep getting wrong.",blanks:["weakest","neurotransmitters"],distractors:["easiest","all topics","strongest"]}
+   ]
+  },
+  {id:2,title:"Active Recall",tagline:"Test yourself, don't re-read",category:"memory",
+   what:"Actively pulling information from your memory without looking at your notes.",
+   why:"The act of retrieval itself strengthens memory far more than passive review. Your brain encodes information more deeply when it has to work to find it.",
+   steps:["Close your notes completely.","Write down (or say out loud) everything you remember about a topic.","Then open your notes and check what you missed.","Focus your next round only on what you couldn't recall."],
+   example:"After reading the unit on memory, you close your textbook and try to draw the three-box model from scratch. You get sensory and LTM right but blank on STM capacity (7 ± 2). You flag that and drill it specifically.",
+   mistakes:["Thinking 'I know this' after reading it. Recognition feels like knowledge — but recall is what the exam tests.","Checking your notes too quickly. Sit with the struggle for at least 30 seconds before looking."],
+   sentences:[
+     {text:"I close my notes and try to draw the ___ model from scratch — sensory memory, short-term, and ___.",blanks:["three-box","long-term"],distractors:["Freudian","working","visual"]},
+     {text:"I blanked on the capacity of STM — it is ___. I flag that and ___ it specifically next round.",blanks:["7 plus or minus 2","drill"],distractors:["unlimited","skip","12 items"]},
+     {text:"Instead of re-reading the chapter on ___, I write everything I remember, then ___ what I missed.",blanks:["sensation","check"],distractors:["history","ignore","guess"]}
+   ]
+  },
+  {id:3,title:"Interleaving",tagline:"Mix topics, don't block-study",category:"strategy",
+   what:"Alternating between different topics in a single study session instead of completing one topic entirely before moving on.",
+   why:"Mixing topics forces your brain to identify which strategy or concept applies to each question — exactly what the AP exam demands.",
+   steps:["Split your session into 15–20 minute blocks.","Rotate between 3 different AP Psych units.","Do practice questions from each unit, not just re-read notes.","Resist the urge to finish one unit completely — switching is the point."],
+   example:"In a 90-minute session: 20 min on sensation & perception, 20 min on research methods, 20 min on development, then loop back. You notice you keep confusing Weber's Law with signal detection theory — now you know what to fix.",
+   mistakes:["Interleaving too randomly — switching every 3 minutes creates chaos. 15–20 minute blocks are the sweet spot.","Only interleaving easy topics. The benefit is biggest when you mix topics that are often confused with each other."],
+   sentences:[
+     {text:"In my 90-minute session, I spend 20 min on ___, then switch to ___, then loop to development.",blanks:["sensation & perception","research methods"],distractors:["the same unit","re-reading","flashcards"]},
+     {text:"I keep confusing ___ with signal detection theory — mixing them in one session helped me ___ the difference.",blanks:["Weber's Law","spot"],distractors:["Freud","forget","ignore"]},
+     {text:"I rotate between ___ different AP Psych units per session, spending about ___ minutes on each block.",blanks:["3","20"],distractors:["1","60","5"]}
+   ]
+  }
+];
+
+// Locked placeholders (4–17)
+const LOCKED = [
+  {id:4,title:"Elaborative Rehearsal",tagline:"Connect new info to what you know",category:"memory"},
+  {id:5,title:"Chunking",tagline:"Group info into meaningful units",category:"memory"},
+  {id:6,title:"Dual Coding",tagline:"Pair words with visuals",category:"encoding"},
+  {id:7,title:"Metacognitive Monitoring",tagline:"Know what you don't know",category:"strategy"},
+  {id:8,title:"Practice Testing",tagline:"Simulate the real exam",category:"strategy"},
+  {id:9,title:"Error-Based Learning",tagline:"Mistakes are your best teachers",category:"strategy"},
+  {id:10,title:"Feynman Technique",tagline:"Explain it like you're teaching",category:"encoding"},
+  {id:11,title:"Distributed Practice",tagline:"Spread sessions over days, not hours",category:"strategy"},
+  {id:12,title:"Desirable Difficulties",tagline:"Make studying harder on purpose",category:"strategy"},
+  {id:13,title:"Schema Building",tagline:"Build mental frameworks, not lists",category:"encoding"},
+  {id:14,title:"Forgetting Awareness",tagline:"Plan for forgetting, not against it",category:"strategy"},
+  {id:15,title:"Application-Based Learning",tagline:"Use concepts in real scenarios",category:"encoding"},
+  {id:16,title:"Cumulative Review",tagline:"Keep old material alive",category:"strategy"},
+  {id:17,title:"Confidence Calibration",tagline:"Align confidence with actual knowledge",category:"strategy"},
+];
+
+const NC=[{bg:"rgba(126,184,247,0.15)",color:"#7eb8f7"},{bg:"rgba(184,163,247,0.15)",color:"#b8a3f7"},{bg:"rgba(94,206,199,0.15)",color:"#5ecec7"},{bg:"rgba(232,213,163,0.15)",color:"#e8d5a3"},{bg:"rgba(244,155,124,0.15)",color:"#f49b7c"},{bg:"rgba(212,83,126,0.15)",color:"#d4537e"},{bg:"rgba(125,211,168,0.15)",color:"#7dd3a8"},{bg:"rgba(247,126,126,0.15)",color:"#f77e7e"},{bg:"rgba(99,153,34,0.15)",color:"#7db83a"},{bg:"rgba(186,117,23,0.15)",color:"#c4943a"}];
+
+let oId=null, mSet=new Set(), fCat="all", fQ="", fibState={};
+
+function ns(id){const c=NC[(id-1)%NC.length];return 'background:'+c.bg+';color:'+c.color}
+
+function upP(){
+  const f=document.getElementById('lvProgressFill'),c=document.getElementById('lvProgressCount');
+  if(!f||!c)return;
+  const p=Math.round(mSet.size/UNLOCKED.length*100);
+  f.style.width=p+'%';
+  c.textContent=mSet.size+' / '+UNLOCKED.length;
+}
+
+// ── FIB ──────────────────────────────────────────────
+function buildFib(t){
+  var st=fibState[t.id]||(fibState[t.id]={currentIdx:0,completed:0});
+  if(mSet.has(t.id)) return '<div class="lv-fib-section"><div class="lv-fib-mastered-msg"><span>🏆</span>Technique mastered! All 3 examples completed.</div></div>';
+  var si=st.currentIdx, s=t.sentences[si];
+  if(!s) return '';
+  var allW=[].concat(s.blanks,s.distractors);
+  allW.sort(function(){return 0.5-Math.sin(t.id*100+si*37+allW.length)});
+  var bi=0, parts=s.text.split('___'), sh='';
+  for(var i=0;i<parts.length;i++){
+    sh+=parts[i];
+    if(i<parts.length-1){
+      sh+='<span class="lv-fib-blank empty" data-tidx="'+t.id+'" data-sidx="'+si+'" data-bidx="'+bi+'" data-answer="'+s.blanks[bi]+'" onclick="window._fibBC(this)"></span>';
+      bi++;
+    }
+  }
+  var pips='';for(var j=0;j<3;j++) pips+='<span class="lv-fib-pip'+(j<st.completed?' done':'')+'"></span>';
+  var wb='';for(var k=0;k<allW.length;k++) wb+='<span class="lv-fib-word" data-tidx="'+t.id+'" onclick="window._fibWC(this)">'+allW[k]+'</span>';
+  return '<div class="lv-fib-section" id="lv-fib-'+t.id+'"><div class="lv-fib-header"><div class="lv-fib-title">✍ Apply it to master</div><div class="lv-fib-progress">Example '+(st.completed+1)+' of 3</div><div class="lv-fib-pips">'+pips+'</div></div><div class="lv-fib-sentence" id="lv-fib-sent-'+t.id+'">'+sh+'</div><div class="lv-fib-bank" id="lv-fib-bank-'+t.id+'">'+wb+'</div><div class="lv-fib-actions"><button class="lv-fib-check" id="lv-fib-chk-'+t.id+'" disabled onclick="window._fibChk('+t.id+')">Check answer</button><span class="lv-fib-result" id="lv-fib-res-'+t.id+'"></span><button class="lv-fib-next" id="lv-fib-nxt-'+t.id+'" onclick="window._fibNxt('+t.id+')">Next example &rarr;</button></div></div>';
+}
+
+window._fibWC=function(el){
+  var tid=parseInt(el.dataset.tidx),sec=document.getElementById('lv-fib-'+tid);if(!sec)return;
+  var blanks=sec.querySelectorAll('.lv-fib-blank'),tgt=null;
+  blanks.forEach(function(b){if(!tgt&&b.classList.contains('empty'))tgt=b});
+  if(!tgt)return;
+  tgt.textContent=el.textContent;tgt.classList.remove('empty');tgt.classList.add('filled');tgt.dataset.word=el.textContent;
+  el.classList.add('used');
+  var allF=true;blanks.forEach(function(b){if(b.classList.contains('empty'))allF=false});
+  var chk=document.getElementById('lv-fib-chk-'+tid);if(chk)chk.disabled=!allF;
+};
+window._fibBC=function(el){
+  if(el.classList.contains('empty')||el.classList.contains('correct'))return;
+  var tid=parseInt(el.dataset.tidx),w=el.dataset.word;if(!w)return;
+  var bank=document.getElementById('lv-fib-bank-'+tid);
+  if(bank)bank.querySelectorAll('.lv-fib-word').forEach(function(wb){if(wb.textContent===w&&wb.classList.contains('used'))wb.classList.remove('used')});
+  el.textContent='';el.classList.remove('filled','wrong');el.classList.add('empty');delete el.dataset.word;
+  var chk=document.getElementById('lv-fib-chk-'+tid);if(chk)chk.disabled=true;
+};
+window._fibChk=function(tid){
+  var sec=document.getElementById('lv-fib-'+tid);if(!sec)return;
+  var blanks=sec.querySelectorAll('.lv-fib-blank'),res=document.getElementById('lv-fib-res-'+tid),chk=document.getElementById('lv-fib-chk-'+tid),nxt=document.getElementById('lv-fib-nxt-'+tid);
+  var ok=true;
+  blanks.forEach(function(b){
+    var ans=b.dataset.answer,w=b.dataset.word||'';
+    if(w.toLowerCase()===ans.toLowerCase()){b.classList.remove('filled','wrong');b.classList.add('correct');}
+    else{b.classList.remove('filled','correct');b.classList.add('wrong');ok=false;}
+  });
+  if(chk)chk.disabled=true;
+  if(ok){
+    if(res){res.textContent='✓ Correct!';res.className='lv-fib-result pass';}
+    var st=fibState[tid];st.completed++;
+    sec.querySelectorAll('.lv-fib-pip').forEach(function(p,i){if(i<st.completed)p.classList.add('done')});
+    if(st.completed>=3){
+      mSet.add(tid);upP();
+      if(res){res.textContent='🏆 Technique mastered!';res.className='lv-fib-result pass';}
+      if(nxt)nxt.style.display='none';
+      setTimeout(function(){rc()},1200);
+    } else {
+      st.currentIdx++;if(nxt)nxt.style.display='inline-block';
+    }
+  } else {
+    if(res){res.textContent='✕ Some blanks are wrong — tap them to retry.';res.className='lv-fib-result fail';}
+    blanks.forEach(function(b){
+      if(b.classList.contains('wrong')){
+        setTimeout(function(){
+          if(!b.classList.contains('wrong'))return;
+          var w2=b.dataset.word;
+          var bk=document.getElementById('lv-fib-bank-'+tid);
+          if(bk)bk.querySelectorAll('.lv-fib-word').forEach(function(wb){if(wb.textContent===w2&&wb.classList.contains('used'))wb.classList.remove('used')});
+          b.textContent='';b.classList.remove('wrong','filled');b.classList.add('empty');delete b.dataset.word;
+        },800);
+      }
+    });
+  }
+};
+window._fibNxt=function(tid){
+  var t=UNLOCKED.find(function(x){return x.id===tid});if(!t)return;
+  var sec=document.getElementById('lv-fib-'+tid);if(!sec)return;
+  sec.outerHTML=buildFib(t);
+};
+
+// ── RENDER ──────────────────────────────────────────────
+function rc(){
+  var list=document.getElementById('lvCardsList'),rl=document.getElementById('lvResultsLabel');
+  if(!list)return;
+
+  // Filter unlocked
+  var fil=UNLOCKED.filter(function(t){
+    var ca=fCat==='all'||t.category===fCat;
+    var q=fQ.toLowerCase();
+    var tx=!q||t.title.toLowerCase().indexOf(q)>=0||t.tagline.toLowerCase().indexOf(q)>=0||t.what.toLowerCase().indexOf(q)>=0;
+    return ca&&tx;
+  });
+
+  // Filter locked (for category/search display)
+  var locFil=LOCKED.filter(function(t){
+    var ca=fCat==='all'||t.category===fCat;
+    var q=fQ.toLowerCase();
+    var tx=!q||t.title.toLowerCase().indexOf(q)>=0||t.tagline.toLowerCase().indexOf(q)>=0;
+    return ca&&tx;
+  });
+
+  var totalShown=fil.length+locFil.length;
+  if(rl) rl.textContent=totalShown===17?'Showing all 17 techniques':'Showing '+totalShown+' technique'+(totalShown!==1?'s':'');
+
+  // Build unlocked cards HTML
+  var unlockedHTML=fil.map(function(t){
+    var io=oId===t.id, im=mSet.has(t.id);
+    return '<div class="lv-card'+(io?' lv-open':'')+'" id="lv-card-'+t.id+'">'
+      +'<div class="lv-card-header" data-id="'+t.id+'">'
+      +'<div class="lv-num" style="'+ns(t.id)+'">'+t.id+'</div>'
+      +'<div class="lv-card-info"><div class="lv-card-title">'+t.title+'</div><div class="lv-card-tagline">'+t.tagline+'</div></div>'
+      +'<div class="lv-card-right">'
+      +'<span class="lv-cat-tag lv-cat-'+t.category+'">'+t.category.charAt(0).toUpperCase()+t.category.slice(1)+'</span>'
+      +'<span class="lv-mastered-btn'+(im?' lv-done':'')+'">'+( im?'✓ Mastered':'Apply to master')+'</span>'
+      +'<svg class="lv-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 7.5l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+      +'</div></div>'
+      +(io?'<div class="lv-card-body">'
+        +'<div class="lv-section"><div class="lv-section-label lv-label-what">What it is</div><p class="lv-section-text">'+t.what+'</p></div>'
+        +'<div class="lv-section"><div class="lv-section-label lv-label-why">Why it works</div><p class="lv-section-text">'+t.why+'</p></div>'
+        +'<div class="lv-section"><div class="lv-section-label lv-label-how">How to use it — AP Psychology</div><ol class="lv-steps">'+t.steps.map(function(s,i){return '<li class="lv-step"><div class="lv-step-num">'+(i+1)+'</div><span>'+s+'</span></li>'}).join('')+'</ol></div>'
+        +'<div class="lv-section"><div class="lv-section-label lv-label-example">Example — AP Psychology</div><div class="lv-example-box">'+t.example+'</div></div>'
+        +'<div class="lv-section"><div class="lv-section-label lv-label-mistakes">Common mistakes</div><div class="lv-mistakes-list">'+t.mistakes.map(function(m){return '<div class="lv-mistake"><div class="lv-mistake-dot">✕</div><span>'+m+'</span></div>'}).join('')+'</div></div>'
+        +buildFib(t)
+        +'</div>':'')
+      +'</div>';
+  }).join('');
+
+  // Build locked cards HTML
+  var lockedHTML=locFil.map(function(t){
+    return '<div class="lv-card-locked" onclick="showLock()">'
+      +'<div class="lv-card-header" style="cursor:not-allowed">'
+      +'<div class="lv-num" style="'+ns(t.id)+';opacity:0.4">'+t.id+'</div>'
+      +'<div class="lv-card-info"><div class="lv-card-title" style="opacity:0.4">'+t.title+'</div><div class="lv-card-tagline">'+t.tagline+'</div></div>'
+      +'<div class="lv-card-right">'
+      +'<span class="lv-cat-tag lv-cat-'+t.category+'" style="opacity:0.35">'+t.category.charAt(0).toUpperCase()+t.category.slice(1)+'</span>'
+      +'<div class="lv-lock-badge">🔒 Locked</div>'
+      +'</div></div>'
+      +'</div>';
+  }).join('');
+
+  list.innerHTML = (fil.length===0&&locFil.length===0)
+    ? '<div class="lv-empty">No techniques match your search.</div>'
+    : unlockedHTML + lockedHTML;
+
+  // Attach click handlers for unlocked cards
+  list.querySelectorAll('.lv-card-header').forEach(function(h){
+    h.addEventListener('click',function(){
+      var id=parseInt(h.dataset.id);
+      oId=(oId===id)?null:id;
+      rc();
+      if(oId){setTimeout(function(){var el=document.getElementById('lv-card-'+oId);if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'})},60)}
+    });
+  });
+}
+
+// ── LOCK OVERLAY ────────────────────────────────────────
+function showLock(){
+  document.getElementById('lock-overlay').classList.add('active');
+}
+function closeLock(){
+  document.getElementById('lock-overlay').classList.remove('active');
+}
+
+// Block keyboard ESC from dismissing overlay (must use button)
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    // Do nothing — keep lock visible
+    e.preventDefault();
+  }
+});
+
+// ── SEARCH & FILTER ──────────────────────────────────────
+document.getElementById('lvSearch').addEventListener('input',function(){
+  fQ=this.value; rc();
+});
+document.querySelectorAll('.lv-chip').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    fCat=btn.dataset.cat;
+    document.querySelectorAll('.lv-chip').forEach(function(b){
+      b.className='lv-chip'+(b.dataset.cat===fCat?' active-'+fCat:'');
+    });
+    rc();
+  });
+});
+
+// ── INIT ────────────────────────────────────────────────
+upP();
+rc();
+</script>
+</body>
+</html>
